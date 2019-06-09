@@ -33,10 +33,11 @@ import java.io.Reader;
  */
 abstract class LineBasedSpuParser<T> implements SpuParser {
 
-    private final Spus spus = new Spus();
+    private Spus spus;
 
     @Override
     public final Spus parse(Reader source) throws SpuParseException {
+        spus = new Spus();
         BufferedReader reader = new BufferedReader(source);
         try {
             for (;;) {
@@ -46,9 +47,6 @@ abstract class LineBasedSpuParser<T> implements SpuParser {
                 }
 
                 line = line.trim();
-                if (line.length() == 0) {
-                    continue;
-                }
 
                 process(line);
             }
