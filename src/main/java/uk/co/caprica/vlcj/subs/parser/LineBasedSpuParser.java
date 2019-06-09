@@ -40,6 +40,7 @@ abstract class LineBasedSpuParser<T> implements SpuParser {
         spus = new Spus();
         BufferedReader reader = new BufferedReader(source);
         try {
+            begin();
             for (;;) {
                 String line = reader.readLine();
                 if (line == null) {
@@ -50,6 +51,7 @@ abstract class LineBasedSpuParser<T> implements SpuParser {
 
                 process(line);
             }
+            end();
             return spus;
         }
         catch (IOException e) {
@@ -60,6 +62,23 @@ abstract class LineBasedSpuParser<T> implements SpuParser {
     protected final void spu(Spu<T> spu) {
         spus.add(spu);
     }
+
+    /**
+     * Begin parsing.
+     *
+     * @throws SpuParseException
+     */
+    protected void begin() throws SpuParseException {
+    }
+
+    /**
+     * End parsing.
+     *
+     * @throws SpuParseException
+     */
+    protected void end() throws SpuParseException {
+    }
+
 
     /**
      * Process the next line from the file.

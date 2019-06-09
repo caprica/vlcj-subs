@@ -39,13 +39,22 @@ public class SrtParser extends LineBasedSpuParser<String> {
         CAPTION
     }
 
-    private State state = State.NUMBER;
+    private State state;
 
-    private int number = -1;
-    private long start = -1L;
-    private long end = -1;
+    private int number;
+    private long start;
+    private long end;
 
-    private StringBuilder buffer = new StringBuilder(100);
+    private StringBuilder buffer;
+
+    @Override
+    protected void begin() throws SpuParseException {
+        state = State.NUMBER;
+        number = -1;
+        start = -1;
+        end = -1;
+        buffer = new StringBuilder(100);
+    }
 
     @Override
     protected void process(String line) throws SpuParseException {
@@ -88,6 +97,14 @@ public class SrtParser extends LineBasedSpuParser<String> {
 
             default:
                 throw new SpuParseException(String.format("Unexpected state: %s", state));
+        }
+    }
+
+    @Override
+    protected void end() throws SpuParseException {
+        if (buffer.length() > 0) {
+            spu(new Spu<String>(number, start, end, buffer.toString()));
+            buffer.setLength(0);
         }
     }
 
