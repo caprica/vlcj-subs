@@ -14,7 +14,7 @@ In future other parsers for different sub-title file formats may be added.
 News
 ====
 
-- 9th June, 2019 - new project, no official release yet
+- 9th June, 2019 - new project
 
 Documentation is currently limited but the API is very small and quite simple - please look at the test sources for
 example usage.
