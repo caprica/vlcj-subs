@@ -51,18 +51,22 @@ public class SrtParser extends LineBasedSpuParser<String> {
     protected void process(String line) throws SpuParseException {
         switch(state) {
             case NUMBER:
-                number = Integer.parseInt(line);
-                state = State.TIME;
+                if (line.length() > 0) {
+                    number = Integer.parseInt(line);
+                    state = State.TIME;
+                }
                 break;
 
             case TIME:
-                Matcher matcher = timelinePattern.matcher(line);
-                if (matcher.matches()) {
-                    start = toMillis(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
-                    end = toMillis(matcher.group(5), matcher.group(6), matcher.group(7), matcher.group(8));
-                    state = State.CAPTION;
-                } else {
-                    throw new SpuParseException(String.format("Failed to match: %s", line));
+                if (line.length() > 0) {
+                    Matcher matcher = timelinePattern.matcher(line);
+                    if (matcher.matches()) {
+                        start = toMillis(matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
+                        end = toMillis(matcher.group(5), matcher.group(6), matcher.group(7), matcher.group(8));
+                        state = State.CAPTION;
+                    } else {
+                        throw new SpuParseException(String.format("Failed to match: %s", line));
+                    }
                 }
                 break;
 
