@@ -19,6 +19,7 @@
 
 package uk.co.caprica.vlcj.subs;
 
+import com.google.common.base.Charsets;
 import uk.co.caprica.vlcj.player.base.MediaPlayer;
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
@@ -31,23 +32,25 @@ import uk.co.caprica.vlcj.subs.parser.SrtParser;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Basic test showing integration with a vlcj {@link MediaPlayer}.
  */
-public class SubsTest {
+public class SpuHandlerTest {
 
-    private static final String SUBS_FILE = "/home/video/1.srt";
-
-    private static final String MEDIA_FILE = "/home/video/1.flv";
+    private static final String MEDIA_FILE = "/ome/video/1.flv";
 
     private static EmbeddedMediaPlayerComponent mediaPlayer;
 
-    public static void main(String[] args) throws IOException, SpuParseException {
+    public static void main(String[] args) throws IOException, SpuParseException, InterruptedException {
         SpuParser parser = new SrtParser();
-        final Spus spus = parser.parse(new FileReader(SUBS_FILE));
+        final Spus spus1 = parser.parse(new FileReader("/ome/video/english.srt"));
+        final Spus spus2 = parser.parse(new InputStreamReader(new FileInputStream("/ome/video/french.srt"), Charsets.ISO_8859_1));
+        final Spus spus3 = parser.parse(new FileReader("/ome/video/spanish.srt"));
 
         mediaPlayer = new EmbeddedMediaPlayerComponent();
 
@@ -64,15 +67,41 @@ public class SubsTest {
         });
         f.setVisible(true);
 
-        final SpuHandler handler = new SpuHandler(spus);
-        handler.setOffset(250);
-        handler.addSpuEventListener(new SpuEventListener() {
+        final SpuHandler handler1 = new SpuHandler(spus1);
+        handler1.setOffset(250);
+        handler1.addSpuEventListener(new SpuEventListener() {
             @Override
             public void spu(Spu<?> spu) {
                 if (spu != null) {
-                    System.out.println("SPU: " + spu.value());
+                    System.out.println("ENG: " + format(spu.value().toString()));
                 } else {
-                    System.out.println("SPU: <clear>");
+                    System.out.println("ENG: <clear>");
+                }
+            }
+        });
+
+        final SpuHandler handler2 = new SpuHandler(spus2);
+        handler2.setOffset(250);
+        handler2.addSpuEventListener(new SpuEventListener() {
+            @Override
+            public void spu(Spu<?> spu) {
+                if (spu != null) {
+                    System.out.println("FRE: " + format(spu.value().toString()));
+                } else {
+                    System.out.println("FRE: <clear>");
+                }
+            }
+        });
+
+        final SpuHandler handler3 = new SpuHandler(spus3);
+        handler3.setOffset(250);
+        handler3.addSpuEventListener(new SpuEventListener() {
+            @Override
+            public void spu(Spu<?> spu) {
+                if (spu != null) {
+                    System.out.println("ESP: " + format(spu.value().toString()));
+                } else {
+                    System.out.println("ESP: <clear>");
                 }
             }
         });
@@ -80,11 +109,21 @@ public class SubsTest {
         mediaPlayer.mediaPlayer().events().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
             @Override
             public void timeChanged(MediaPlayer mediaPlayer, long newTime) {
-                handler.setTime(newTime);
+                handler1.setTime(newTime);
+                handler2.setTime(newTime);
+                handler3.setTime(newTime);
             }
         });
 
         mediaPlayer.mediaPlayer().media().play(MEDIA_FILE);
+
+        Thread.sleep(500);
+
+        mediaPlayer.mediaPlayer().controls().setTime(500000);
+    }
+
+    private static String format(String val) {
+        return val.replaceAll("(\r\n|\n)", "\\\\n");
     }
 
 }
