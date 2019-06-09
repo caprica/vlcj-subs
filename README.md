@@ -16,6 +16,9 @@ News
 
 - 9th June, 2019 - new project, no official release yet
 
+Documentation is currently limited but the API is very small and quite simple - please look at the test sources for
+example usage.
+
 All releases are at available at [Maven Central](https://search.maven.org/search?q=a:vlcj-subs).
 
 You can follow @capricasoftware on Twitter for more vlcj news.
