@@ -23,10 +23,14 @@ import com.google.common.collect.Range;
 import com.google.common.collect.RangeMap;
 import com.google.common.collect.TreeRangeMap;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Collection of SPUs.
  */
-public final class Spus {
+public final class Spus implements Iterable<Spu<?>> {
 
     /**
      * Map of SPUs.
@@ -50,6 +54,20 @@ public final class Spus {
      */
     public Spu<?> get(long time) {
         return spus.get(time);
+    }
+
+    /**
+     * Get all of the SPUs as a {@link List}.
+     *
+     * @return list of all SPUs
+     */
+    public List<Spu<?>> asList() {
+        return new ArrayList<Spu<?>>(spus.asMapOfRanges().values());
+    }
+
+    @Override
+    public Iterator<Spu<?>> iterator() {
+        return asList().iterator();
     }
 
 }
