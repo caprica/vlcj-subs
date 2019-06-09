@@ -50,7 +50,7 @@ public final class Spus implements Iterable<Spu<?>> {
      * Get the SPU corresponding to the requested time.
      *
      * @param time time
-     * @return SPU, or <code<null</code> if no SPU should be shown at this time
+     * @return SPU, or <code>null</code> if no SPU should be shown at this time
      */
     public Spu<?> get(long time) {
         return spus.get(time);
