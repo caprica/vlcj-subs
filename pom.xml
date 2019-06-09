@@ -82,7 +82,6 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>27.1-jre</version>
-            <type>bundle</type>
         </dependency>
         <dependency>
             <groupId>uk.co.caprica</groupId>
