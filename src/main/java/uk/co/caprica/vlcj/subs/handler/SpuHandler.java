@@ -30,7 +30,7 @@ import java.util.List;
  * <p>
  * SPU events are only notified if the SPU actually changes when the time is updated.
  */
-public class SpuHandler {
+public final class SpuHandler {
 
     /**
      * Collection of event listeners.
@@ -68,7 +68,7 @@ public class SpuHandler {
      *
      * @param offset offset, in milliseconds, may also be zero or negative
      */
-    public final void setOffset(long offset) {
+    public void setOffset(long offset) {
         this.offset = offset;
     }
 
@@ -77,7 +77,7 @@ public class SpuHandler {
      *
      * @param listener component to notify
      */
-    public final void addSpuEventListener(SpuEventListener listener) {
+    public void addSpuEventListener(SpuEventListener listener) {
         listeners.add(listener);
     }
 
@@ -86,7 +86,7 @@ public class SpuHandler {
      *
      * @param listener  component to stop notifying
      */
-    public final void removeSpuEventListener(SpuEventListener listener) {
+    public void removeSpuEventListener(SpuEventListener listener) {
         listeners.remove(listener);
     }
 
@@ -97,7 +97,7 @@ public class SpuHandler {
      *
      * @param time new time
      */
-    public final void setTime(long time) {
+    public void setTime(long time) {
         Spu<?> newSpu = spus.get(time + offset);
         if (newSpu != null) {
             if (currentSpu == null || currentSpu.number() != newSpu.number()) {
