@@ -41,6 +41,13 @@ Related Projects
 
  * [vlcj](https://github.com/caprica/vlcj)
 
+Demo
+----
+
+A random video with some random sub-titles showing the sort of apps you could make...
+
+![vlcj subs demo](https://github.com/caprica/vlcj-subs/raw/master/etc/vlcj-subs-demo.png "vlcj subs demo")
+
 License
 -------
 
