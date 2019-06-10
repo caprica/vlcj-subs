@@ -59,6 +59,11 @@ abstract class LineBasedSpuParser<T> implements SpuParser {
         }
     }
 
+    /**
+     * Add am SPU to the collection.
+     *
+     * @param spu SPU to add
+     */
     protected final void spu(Spu<T> spu) {
         spus.add(spu);
     }
