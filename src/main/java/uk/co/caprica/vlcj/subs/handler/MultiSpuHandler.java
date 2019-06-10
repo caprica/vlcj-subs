@@ -100,7 +100,8 @@ public final class MultiSpuHandler {
     /**
      * Set the SPU time offset for a single SPU.
      * <p>
-     * If set for a particular id, this value will override any value set via {@link #setOffset(long)}.
+     * If set for a particular id, this value will override any value set via {@link #setOffset(long)} for the related
+     * SPU.
      *
      * @param id unique identifier for the SPUs to set the offset for
      * @param offset offset, in milliseconds, may also be zero or negative
