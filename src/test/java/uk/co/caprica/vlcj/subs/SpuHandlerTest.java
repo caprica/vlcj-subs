@@ -42,15 +42,15 @@ import java.io.InputStreamReader;
  */
 public class SpuHandlerTest {
 
-    private static final String MEDIA_FILE = "/ome/video/1.flv";
+    private static final String MEDIA_FILE = "/home/mark/1.flv";
 
     private static EmbeddedMediaPlayerComponent mediaPlayer;
 
     public static void main(String[] args) throws IOException, SpuParseException, InterruptedException {
         SpuParser parser = new SrtParser();
-        final Spus spus1 = parser.parse(new FileReader("/ome/video/english.srt"));
-        final Spus spus2 = parser.parse(new InputStreamReader(new FileInputStream("/ome/video/french.srt"), Charsets.ISO_8859_1));
-        final Spus spus3 = parser.parse(new FileReader("/ome/video/spanish.srt"));
+        final Spus spus1 = parser.parse(new FileReader("/home/mark/english.srt"));
+        final Spus spus2 = parser.parse(new InputStreamReader(new FileInputStream("/home/mark/french.srt"), Charsets.ISO_8859_1));
+        final Spus spus3 = parser.parse(new FileReader("/home/mark/spanish.srt"));
 
         mediaPlayer = new EmbeddedMediaPlayerComponent();
 
