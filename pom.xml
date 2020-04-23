@@ -18,7 +18,7 @@
 
     <groupId>uk.co.caprica</groupId>
     <artifactId>vlcj-subs</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <name>vlcj subs</name>
     <description />
