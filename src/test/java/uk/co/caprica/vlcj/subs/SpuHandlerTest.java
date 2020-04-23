@@ -20,52 +20,27 @@
 package uk.co.caprica.vlcj.subs;
 
 import com.google.common.base.Charsets;
-import uk.co.caprica.vlcj.player.base.MediaPlayer;
-import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
-import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 import uk.co.caprica.vlcj.subs.handler.SpuEventListener;
 import uk.co.caprica.vlcj.subs.handler.SpuHandler;
 import uk.co.caprica.vlcj.subs.parser.SpuParseException;
 import uk.co.caprica.vlcj.subs.parser.SpuParser;
 import uk.co.caprica.vlcj.subs.parser.SrtParser;
 
-import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Basic test showing integration with a vlcj {@link MediaPlayer}.
+ * Basic test showing integration with a vlcj MediaPlayer.
  */
 public class SpuHandlerTest {
-
-    private static final String MEDIA_FILE = "/home/mark/1.flv";
-
-    private static EmbeddedMediaPlayerComponent mediaPlayer;
 
     public static void main(String[] args) throws IOException, SpuParseException, InterruptedException {
         SpuParser parser = new SrtParser();
         final Spus spus1 = parser.parse(new FileReader("/home/mark/english.srt"));
         final Spus spus2 = parser.parse(new InputStreamReader(new FileInputStream("/home/mark/french.srt"), Charsets.ISO_8859_1));
         final Spus spus3 = parser.parse(new FileReader("/home/mark/spanish.srt"));
-
-        mediaPlayer = new EmbeddedMediaPlayerComponent();
-
-        JFrame f = new JFrame("vlcj subs test");
-        f.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        f.setBounds(100, 100, 800, 600);
-        f.setContentPane(mediaPlayer);
-        f.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                mediaPlayer.release();
-                System.exit(0);
-            }
-        });
-        f.setVisible(true);
 
         final SpuHandler handler1 = new SpuHandler(spus1);
         handler1.setOffset(250);
@@ -106,20 +81,12 @@ public class SpuHandlerTest {
             }
         });
 
-        mediaPlayer.mediaPlayer().events().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
-            @Override
-            public void timeChanged(MediaPlayer mediaPlayer, long newTime) {
-                handler1.setTime(newTime);
-                handler2.setTime(newTime);
-                handler3.setTime(newTime);
-            }
-        });
-
-        mediaPlayer.mediaPlayer().media().play(MEDIA_FILE);
-
-        Thread.sleep(500);
-
-        mediaPlayer.mediaPlayer().controls().setTime(500000);
+        for (int i = 60000; i < 180000; i += 1000) {
+            System.out.printf("Time %d%n", i);
+            handler1.setTime(i);
+            handler2.setTime(i);
+            handler3.setTime(i);
+        }
     }
 
     private static String format(String val) {
